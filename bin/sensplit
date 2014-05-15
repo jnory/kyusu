@@ -1,0 +1,91 @@
+#!/usr/bin/env ruby
+
+require 'set'
+
+$program_dir = File.dirname(__FILE__)
+
+class Splitter
+	def initialize
+		@kuten = []
+		open("#{$program_dir}/../data/kuten.csv"){|fp|
+			while fp.gets
+				@kuten << $_.chomp.split(",")[0]
+			end
+		}
+
+		@kakko_hiraku = []
+		open("#{$program_dir}/../data/kakko_hiraku.csv"){|fp|
+			while fp.gets
+				@kakko_hiraku << $_.chomp.split(",")[0]
+			end
+		}
+
+		@kakko_tojiru = []
+		open("#{$program_dir}/../data/kakko_tojiru.csv"){|fp|
+			while fp.gets
+				@kakko_tojiru << $_.chomp.split(",")[0]
+			end
+		}
+
+		@kuten = Set.new(@kuten)
+		@kakko_hiraku = Set.new(@kakko_hiraku)
+		@kakko_tojiru = Set.new(@kakko_tojiru)
+
+		@stack = 0
+	end
+
+	def eos?(c)
+		if @kakko_hiraku.include?(c)
+			@stack+=1
+			return false
+		elsif @kakko_tojiru.include?(c)
+			@stack-=1
+			@prechar_kuten=false
+			if @stack < 0
+				@stack = 0
+			end
+			return false
+		elsif @stack==0 and @kuten.include?(c)
+			if c =~ /\p{ASCII}/
+				next_c = yield
+			 	if (next_c.nil? or next_c == " ")
+					@prechar_kuten=true
+					return true
+				else
+					@prechar_kuten=false
+					return false
+				end
+			else
+				@prechar_kuten=true
+				return true
+			end
+		elsif @kuten.include?(c)
+			@prechar_kuten = true
+			return false
+		else
+			@prechar_kuten = false
+			return false
+		end
+	end
+end
+
+splitter = Splitter.new
+while gets
+	line = $_.chomp.strip
+	
+	last_judge = false
+	chars = line.split(//)
+	chars.each_with_index{|c,i|
+		if splitter.eos?(c){ chars[i+1] }
+			last_judge = true
+			puts c
+		else
+			last_judge = false
+			print c
+		end
+	}
+	if not last_judge
+		puts ""
+	end
+end
+

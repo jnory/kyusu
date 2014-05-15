@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+while gets
+	line=$_.chomp
+	next if line.length < 3 or line.length > 1000
+	line.gsub!("　"," ")
+	puts line.strip
+end
+

@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby
+
+require 'moji'
+require 'set'
+
+$program_dir = File.dirname(__FILE__)
+
+class Concater
+	def initialize
+		@hyphens = []
+		open("#{$program_dir}/../data/hyphen.csv"){|fp|
+			while fp.gets
+				c = $_.chomp.split[0]
+				@hyphens << c
+			end
+		}
+		@hyphens = Set.new(@hyphens)
+	end
+
+	def concat?(word1, word2)
+		return false if not word2
+		c1 = word1[-1]
+		c2 = word2[0]
+
+		is_alnum1 = Moji.type?(c1, Moji::ALNUM)
+		is_alnum2 = Moji.type?(c2, Moji::ALNUM)
+		is_hyphen1 = @hyphens.include?(c1)
+		is_hyphen2 = @hyphens.include?(c2)
+		is_katakana1 = Moji.type?(c1, Moji::KATA)
+		is_katakana2 = Moji.type?(c2, Moji::KATA)
+		if is_alnum1
+			if is_hyphen2 or is_alnum2
+				return true
+			else
+				return false
+			end
+		elsif is_hyphen1
+			if is_alnum2 or is_katakana2 or is_hyphen2
+				return true
+			else
+				return false
+			end
+		elsif is_katakana1
+			if is_hyphen2
+				return true
+			else
+				return false
+			end
+		end
+	end
+end
+
+concater = Concater.new
+while gets
+	line = $_.chomp
+	words = line.split
+	words.each_with_index{|w,i|
+		if concater.concat?(w, words[i+1])
+			print w
+		else
+			print w, " "
+		end
+	}
+	puts
+end
+
