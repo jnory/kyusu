@@ -1,4 +1,4 @@
-# Kyusu
+# Kyusu(急須)
 
 ## これは何?
 テキスト整形ツールです。
@@ -38,12 +38,14 @@ $ sensplit < textfile | preprocess | mecab -Owakati | postprocess
 http://gimite.net/gimite/rubymess/moji.html
 
 ## 著作権について
-本プログラムではUnidic 2.1.2 ( http://www.ninjal.ac.jp/corpus_center/unidic/ ) より句点類と括弧類を抽出させていただきました。これらのデータは国立国語研究所が保持し、オープンソースライセンスのもとで提供されているものです。抽出されたデータはdataディレクトリに収められています。
+本プログラムではUnidic 2.1.2 ( http://www.ninjal.ac.jp/corpus_center/unidic/ )
+より句点類と括弧類を抽出させていただきました。これらのデータは国立国語研究所が保持し、オープンソースライセンス( GPL/LGPL/BSD ライセンス )のもとで提供されているものです。抽出されたデータはdataディレクトリに収められています。
 
 ## その他
-統計的機械翻訳システムmosesの学習データを作成する場合には、これに加えて
-moses付属の整形ツールを利用することを強くお勧めします。
+統計的機械翻訳システムmosesの学習データを作成する場合には、
+本ツールに加えてmoses付属の整形ツールを利用することを強くお勧めします。
 これらは以下のディレクトリに格納されています。
 (install directory)/training-scripts/tokenizer/
 
 乗松潤矢( http://www.jnory.com )
+
