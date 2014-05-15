@@ -33,7 +33,11 @@
 ## 利用例
 $ sensplit < textfile | preprocess | mecab -Owakati | postprocess
 
-## 依存ライブラリ
+## 依存ライブラリ/ツール
+* Ruby 2.1
+https://www.ruby-lang.org/ja/
+Ruby 1.9以降であれば動くかもしれませんが、動作確認は行っていません。
+
 * moji
 http://gimite.net/gimite/rubymess/moji.html
 
