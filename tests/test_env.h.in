@@ -1,0 +1,3 @@
+#pragma once
+
+#define KYUSU_TEST_DATA_DIR std::string("@CMAKE_CURRENT_SOURCE_DIR@/data")
