@@ -12,20 +12,20 @@ namespace kyusu {
         LengthFilter(uint64_t min, uint64_t max): min_(min), max_(max){
         }
 
-        bool operator()(std::string const &line){
+        bool filter(std::string const &line) const {
             return !(line.size() < min_ || line.size() > max_);
         }
 
     private:
-        uint64_t min_;
-        uint64_t max_;
+        uint64_t const min_;
+        uint64_t const max_;
     };
 
     class SpaceReplacer {
     public:
         SpaceReplacer(Config const &config): config_(config){}
 
-        std::string operator()(std::string const &line){
+        std::string replace(std::string const &line) const {
             std::string tmp = line;
             for(auto space: config_.spaces()){
                 boost::algorithm::replace_all(tmp, space, " ");
@@ -41,7 +41,7 @@ namespace kyusu {
     public:
         StripReplacer(){}
 
-        std::string operator()(std::string const &line){
+        std::string replace(std::string const &line) const {
             return boost::algorithm::trim_copy(line);
         }
     };
