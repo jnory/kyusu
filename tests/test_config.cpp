@@ -14,7 +14,7 @@ class TestConfig: public ::testing::Test {
 
 TEST_F(TestConfig, test_spaces) {
     kyusu::Config config(KYUSU_TEST_DATA_DIR + "/config.json");
-    GTEST_ASSERT_EQ(config.spaces()[0], "　");
+    GTEST_ASSERT_EQ(config.spaces()[0], u8"　");
 }
 
 //TODO: Write more tests for additional configurations.
