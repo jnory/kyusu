@@ -33,6 +33,18 @@ namespace kyusu {
             return spaces_;
         }
 
+        std::vector<std::string> const &kutens() const {
+            return kutens_;
+        }
+
+        std::vector<std::string> const &kakko_hirakus() const {
+            return kakko_hirakus_;
+        }
+
+        std::vector<std::string> const &kakko_tojirus() const {
+            return kakko_tojirus_;
+        }
+
     private:
         std::string const &path_;
         std::vector<std::string> spaces_;
