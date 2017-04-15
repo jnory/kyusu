@@ -82,10 +82,9 @@ namespace kyusu {
                 c1 = c2;
                 h1 = h2;
             };
-            UTF8::iterate_by_character(data.c_str() + length1, func);
+            UTF8::iterate_by_character(c + length1, func);
             callback_(data.substr(last));
         }
-
 
     private:
         D &decider_;

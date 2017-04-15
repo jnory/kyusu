@@ -4,6 +4,7 @@ set(TEST_SOURCE
         test_config.cpp
         test_preprocess.cpp
         test_splitter.cpp
+        test_concatter.cpp
         )
 
 configure_file(test_env.h.in test_env.h)

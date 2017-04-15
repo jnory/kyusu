@@ -1,6 +1,6 @@
 {
   "space": ["　"],
-  "hyphen": [],
+  "hyphen": ["-"],
   "kakko_hiraku": ["("],
   "kakko_tojiru": [")"],
   "kuten": ["."]

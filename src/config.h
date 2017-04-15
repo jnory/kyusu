@@ -45,6 +45,10 @@ namespace kyusu {
             return kakko_tojirus_;
         }
 
+        std::vector<std::string> const &hyphens() const {
+            return hyphens_;
+        }
+
     private:
         std::string const &path_;
         std::vector<std::string> spaces_;

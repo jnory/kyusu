@@ -3,7 +3,6 @@
 #include "test_env.h"
 #include "../src/splitter.h"
 #include "../src/config.h"
-#include "../src/utf8.h"
 
 
 class TestSplitter: public ::testing::Test {
@@ -24,22 +23,22 @@ TEST_F(TestSplitter, test_decider) {
         return decider.is_eof(h1, h2);
     };
 
-    ASSERT_FALSE(func("a", "b"));
-    ASSERT_FALSE(func("b", "("));
-    ASSERT_FALSE(func("(", "x"));
-    ASSERT_FALSE(func("x", "."));
-    ASSERT_FALSE(func(".", "y"));
-    ASSERT_FALSE(func("y", "z"));
-    ASSERT_FALSE(func("z", ")"));
-    ASSERT_FALSE(func(")", "c"));
-    ASSERT_FALSE(func("c", "."));
-    ASSERT_TRUE(func(".", " "));
-    ASSERT_FALSE(func(" ", "a"));
-    ASSERT_FALSE(func("a", "b"));
-    ASSERT_FALSE(func("b", "."));
-    ASSERT_FALSE(func(".", "b"));
-    ASSERT_FALSE(func("c", "."));
-    ASSERT_TRUE(func(".", " "));
+    ASSERT_FALSE(func(u8"a", u8"b"));
+    ASSERT_FALSE(func(u8"b", u8"("));
+    ASSERT_FALSE(func(u8"(", u8"x"));
+    ASSERT_FALSE(func(u8"x", u8"."));
+    ASSERT_FALSE(func(u8".", u8"y"));
+    ASSERT_FALSE(func(u8"y", u8"z"));
+    ASSERT_FALSE(func(u8"z", u8")"));
+    ASSERT_FALSE(func(u8")", u8"c"));
+    ASSERT_FALSE(func(u8"c", u8"."));
+    ASSERT_TRUE(func(u8".", u8" "));
+    ASSERT_FALSE(func(u8" ", u8"a"));
+    ASSERT_FALSE(func(u8"a", u8"b"));
+    ASSERT_FALSE(func(u8"b", u8"."));
+    ASSERT_FALSE(func(u8".", u8"b"));
+    ASSERT_FALSE(func(u8"c", u8"."));
+    ASSERT_TRUE(func(u8".", u8" "));
 }
 
 TEST_F(TestSplitter, test_splitter) {
@@ -50,9 +49,11 @@ TEST_F(TestSplitter, test_splitter) {
         lines.push_back(line);
     };
     kyusu::Splitter<decltype(decider), decltype(callback)> splitter(decider, callback);
-    splitter.split("ab(x.yz)c. ab.c.");
+    splitter.split(u8"ab(x.yz)c. ab.c.");
     ASSERT_EQ(lines.size(), 2);
-    ASSERT_EQ(lines[0], "ab(x.yz)c.");
-    ASSERT_EQ(lines[1], " ab.c.");
+    ASSERT_EQ(lines[0], u8"ab(x.yz)c.");
+    ASSERT_EQ(lines[1], u8" ab.c.");
 }
+
+//TODO write tests for Japanese characters.
 

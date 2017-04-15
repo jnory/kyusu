@@ -10,7 +10,10 @@ add_subdirectory(tests)
 set(HEADERS
         src/preprocess.h
         src/config.h
-        src/splitter.h)
+        src/splitter.h
+        src/concatter.h
+        src/utf8.h
+        )
 
 set(SOURCE_FILES main.cpp ${HEADERS})
 add_executable(kyusu2 ${SOURCE_FILES})
