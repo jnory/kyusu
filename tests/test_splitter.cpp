@@ -3,6 +3,7 @@
 #include "test_env.h"
 #include "../src/splitter.h"
 #include "../src/config.h"
+#include "../src/utf8.h"
 
 
 class TestSplitter: public ::testing::Test {
@@ -17,22 +18,28 @@ TEST_F(TestSplitter, test_decider) {
     kyusu::Config config(KYUSU_TEST_DATA_DIR + "/config.json");
     kyusu::Decider<decltype(config.kutens())> decider(config.kutens(), config.kakko_hirakus(), config.kakko_tojirus());
 
-    ASSERT_FALSE(decider.is_eof("a", "b"));
-    ASSERT_FALSE(decider.is_eof("b", "("));
-    ASSERT_FALSE(decider.is_eof("(", "x"));
-    ASSERT_FALSE(decider.is_eof("x", "."));
-    ASSERT_FALSE(decider.is_eof(".", "y"));
-    ASSERT_FALSE(decider.is_eof("y", "z"));
-    ASSERT_FALSE(decider.is_eof("z", ")"));
-    ASSERT_FALSE(decider.is_eof(")", "c"));
-    ASSERT_FALSE(decider.is_eof("c", "."));
-    ASSERT_TRUE(decider.is_eof(".", " "));
-    ASSERT_FALSE(decider.is_eof(" ", "a"));
-    ASSERT_FALSE(decider.is_eof("a", "b"));
-    ASSERT_FALSE(decider.is_eof("b", "."));
-    ASSERT_FALSE(decider.is_eof(".", "b"));
-    ASSERT_FALSE(decider.is_eof("c", "."));
-    ASSERT_TRUE(decider.is_eof(".", " "));
+    auto func = [&](char const *c1, char const *c2){
+        auto h1 = kyusu::UTF8::to_u8char(c1, kyusu::UTF8::get_variable_length(c1));
+        auto h2 = kyusu::UTF8::to_u8char(c2, kyusu::UTF8::get_variable_length(c2));
+        return decider.is_eof(h1, h2);
+    };
+
+    ASSERT_FALSE(func("a", "b"));
+    ASSERT_FALSE(func("b", "("));
+    ASSERT_FALSE(func("(", "x"));
+    ASSERT_FALSE(func("x", "."));
+    ASSERT_FALSE(func(".", "y"));
+    ASSERT_FALSE(func("y", "z"));
+    ASSERT_FALSE(func("z", ")"));
+    ASSERT_FALSE(func(")", "c"));
+    ASSERT_FALSE(func("c", "."));
+    ASSERT_TRUE(func(".", " "));
+    ASSERT_FALSE(func(" ", "a"));
+    ASSERT_FALSE(func("a", "b"));
+    ASSERT_FALSE(func("b", "."));
+    ASSERT_FALSE(func(".", "b"));
+    ASSERT_FALSE(func("c", "."));
+    ASSERT_TRUE(func(".", " "));
 }
 
 TEST_F(TestSplitter, test_splitter) {
